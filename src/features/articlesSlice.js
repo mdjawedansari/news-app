@@ -3,20 +3,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'https://newsapi.org/v2/Top-Headlines';
-const API_KEY = '0517cde1b9f745c185d36e15fea5ada7'; // Replace with your actual API key
+const API_URL = 'https://newsapi.org/v2/everything?q=tesla&from=2024-05-27&sortBy=publishedAt&apiKey=0517cde1b9f745c185d36e15fea5ada7';
 
 export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
-  async ({ category, page }) => {
-    const response = await axios.get(API_URL, {
-      params: {
-        category,
-        page,
-        apiKey: API_KEY,
-      },
-    });
-    return response.data.articles;
+  async ({ page }, { rejectWithValue }) => {
+    try {
+      const pageSize = 20; // Define how many articles per page
+      const response = await axios.get(API_URL, {
+        params: {
+          page,
+          pageSize,
+        },
+      });
+      return {
+        articles: response.data.articles,
+        totalResults: response.data.totalResults,
+        pageSize,
+      };
+    } catch (error) {
+      return rejectWithValue(error.response ? error.response.data : error.message);
+    }
   }
 );
 
@@ -26,15 +33,11 @@ const articlesSlice = createSlice({
     articles: [],
     status: 'idle',
     error: null,
-    category: 'general',
     page: 1,
+    totalPages: 0,
   },
   reducers: {
-    setCategory(state, action) {
-      state.category = action.payload;
-      state.page = 1;
-    },
-    setPage(state, action) {
+    setPage: (state, action) => {
       state.page = action.payload;
     },
   },
@@ -45,15 +48,16 @@ const articlesSlice = createSlice({
       })
       .addCase(fetchArticles.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.articles = action.payload;
+        state.articles = action.payload.articles;
+        state.totalPages = Math.ceil(action.payload.totalResults / action.payload.pageSize);
       })
       .addCase(fetchArticles.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = action.payload.message;
       });
   },
 });
 
-export const { setCategory, setPage } = articlesSlice.actions;
+export const { setPage } = articlesSlice.actions;
 
 export default articlesSlice.reducer;
