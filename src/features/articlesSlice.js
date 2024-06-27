@@ -1,14 +1,13 @@
-// src/features/articlesSlice.js
+// Article Slice to fetch api
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const API_URL = 'https://newsapi.org/v2/top-headlines';
-const API_KEY = '0517cde1b9f745c185d36e15fea5ada7';
- // Replace with your actual API key 8941a0c4c9ec483091c5ea55abd281b3
+const API_URL = "https://newsapi.org/v2/top-headlines";
+const API_KEY = "0517cde1b9f745c185d36e15fea5ada7"; // Replace with your actual API key 
 
 export const fetchArticles = createAsyncThunk(
-  'articles/fetchArticles',
+  "articles/fetchArticles",
   async ({ category, page }) => {
     const response = await axios.get(API_URL, {
       params: {
@@ -22,12 +21,12 @@ export const fetchArticles = createAsyncThunk(
 );
 
 const articlesSlice = createSlice({
-  name: 'articles',
+  name: "articles",
   initialState: {
     articles: [],
-    status: 'idle',
+    status: "idle",
     error: null,
-    category: 'general',
+    category: "general",
     page: 1,
   },
   reducers: {
@@ -42,14 +41,14 @@ const articlesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchArticles.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchArticles.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.articles = action.payload;
       })
       .addCase(fetchArticles.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       });
   },

@@ -1,13 +1,12 @@
-// src/components/Pagination.jsx
+// Pagination
 
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setPage } from '../features/articlesSlice';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPage } from "../features/articlesSlice";
 
 const Pagination = () => {
   const dispatch = useDispatch();
   const { page } = useSelector((state) => state.articles);
-  
 
   const handlePrevious = () => {
     if (page > 1) dispatch(setPage(page - 1));

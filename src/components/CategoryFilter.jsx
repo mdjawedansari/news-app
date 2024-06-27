@@ -1,14 +1,14 @@
-// src/components/CategoryFilter.jsx
+// Catgory filteer page
 
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCategory, fetchArticles, setPage } from '../features/articlesSlice';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategory, fetchArticles, setPage } from "../features/articlesSlice";
 
 const categories = [
-  { label: 'All', value: 'general' },
-  { label: 'Business', value: 'business' },
-  { label: 'Technology', value: 'technology' },
-  { label: 'Entertainment', value: 'entertainment' },
+  { label: "All", value: "general" },
+  { label: "Business", value: "business" },
+  { label: "Technology", value: "technology" },
+  { label: "Entertainment", value: "entertainment" },
 ];
 
 const CategoryFilter = () => {
@@ -24,7 +24,10 @@ const CategoryFilter = () => {
 
   return (
     <div className="flex items-center w-56 border-2 mb-4">
-      <label htmlFor="category" className="block text-sm font-medium text-gray-700 mr-10">
+      <label
+        htmlFor="category"
+        className="block text-sm font-medium text-gray-700 mr-10"
+      >
         Category
       </label>
       <select
