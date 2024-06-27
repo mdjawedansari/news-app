@@ -7,7 +7,7 @@ const API_URL = 'https://newsapi.org/v2/everything?q=tesla&from=2024-05-27&sortB
 
 export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
-  async ({ page }, { rejectWithValue }) => {
+  async ({ category, page }) => {
     try {
       const pageSize = 20; // Define how many articles per page
       const response = await axios.get(API_URL, {
@@ -33,10 +33,14 @@ const articlesSlice = createSlice({
     articles: [],
     status: 'idle',
     error: null,
+    category: 'general',
     page: 1,
     totalPages: 0,
   },
   reducers: {
+    setCategory: (state, action) => {
+      state.page = action.payload;
+    },
     setPage: (state, action) => {
       state.page = action.payload;
     },
@@ -58,6 +62,6 @@ const articlesSlice = createSlice({
   },
 });
 
-export const { setPage } = articlesSlice.actions;
+export const { setCategory, setPage } = articlesSlice.actions;
 
 export default articlesSlice.reducer;
