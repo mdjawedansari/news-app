@@ -1,25 +1,21 @@
-// Article home page
-
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchArticles } from "../features/articlesSlice";
-import { Link } from "react-router-dom";
-import Pagination from "./Pagination";
-import CategoryFilter from "./CategoryFilter";
+// src/components/ArticleList.js
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchArticles } from '../features/articlesSlice';
+import { Link } from 'react-router-dom';
+import Pagination from './Pagination';
+import CategoryFilter from './CategoryFilter';
 
 const ArticleList = () => {
   const dispatch = useDispatch();
-  const { articles, status, error, category, page } = useSelector(
-    (state) => state.articles
-  );
+  const { articles, status, error, category, page } = useSelector((state) => state.articles);
 
   useEffect(() => {
     dispatch(fetchArticles({ category, page }));
   }, [dispatch, category, page]);
 
-  if (status === "loading") return <div>Loading...</div>;
-  if (status === "failed") return <div>Error: {error}</div>;
-
+  if (status === 'loading') return <div>Loading...</div>;
+  if (status === 'failed') return <div>Error: {error}</div>;
 
   return (
     <div className="container mx-auto px-4">
@@ -29,7 +25,7 @@ const ArticleList = () => {
           <div key={index} className="border rounded-lg p-4">
             <img
               src={article.urlToImage}
-              alt={"imgErr"}
+              alt="imgErr"
               className="w-full h-48 object-cover rounded-md"
             />
             <h2 className="text-xl font-semibold mt-2 line-clamp-2">

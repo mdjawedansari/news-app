@@ -1,19 +1,22 @@
 // src/features/articlesSlice.js
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'https://newsapi.org/v2/top-headlines';
-const API_KEY = '0517cde1b9f745c185d36e15fea5ada7'; // Replace with your actual API key
+const apiUrl = 'https://newsapi.org/v2/everything';
+const apiKey = '0517cde1b9f745c185d36e15fea5ada7';
+const from = '2024-05-30';
+const sortBy = 'publishedAt';
 
 export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
   async ({ category, page }) => {
-    const response = await axios.get(API_URL, {
+    const response = await axios.get(apiUrl, {
       params: {
-        category,
-        page,
-        apiKey: API_KEY,
+        q: category,
+        from: from,
+        sortBy: sortBy,
+        page: page,
+        apiKey: apiKey,
       },
     });
     return response.data.articles;
@@ -30,11 +33,11 @@ const articlesSlice = createSlice({
     page: 1,
   },
   reducers: {
-    setCategory(state, action) {
+    setCategory: (state, action) => {
       state.category = action.payload;
       state.page = 1;
     },
-    setPage(state, action) {
+    setPage: (state, action) => {
       state.page = action.payload;
     },
   },
