@@ -6,7 +6,7 @@ import { setPage } from '../features/articlesSlice';
 const Pagination = () => {
   const dispatch = useDispatch();
   const { page } = useSelector((state) => state.articles);
-  console.log(page);
+  // console.log(page);
 
   const handlePrevious = () => {
     if (page > 1) {

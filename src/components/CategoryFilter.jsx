@@ -6,7 +6,7 @@ import { setCategory } from '../features/articlesSlice';
 const CategoryFilter = () => {
   const dispatch = useDispatch();
   const { category } = useSelector((state) => state.articles);
-
+// console.log(category);
   const handleCategoryChange = (event) => {
     dispatch(setCategory(event.target.value));
   };
@@ -16,9 +16,9 @@ const CategoryFilter = () => {
       <label htmlFor="category">Category: </label>
       <select id="category" value={category} onChange={handleCategoryChange}>
         <option value="general">All</option>
-        <option value="business">Business</option>
-        <option value="technology">Technology</option>
-        <option value="entertainment">Entertainment</option>
+        <option value="jsonplaceholder">JsonPlaceHolder</option>
+        <option value="rutrum">Rutrum</option>
+        <option value="ipsum">Ipsum</option>
         {/* Add more categories as needed */}
       </select>
     </div>
