@@ -18,6 +18,11 @@ export const fetchArticles = createAsyncThunk(
         page: page,
         apiKey: apiKey,
       },
+      headers: {
+        // Add any necessary headers here
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
     });
     return response.data.articles;
   }
