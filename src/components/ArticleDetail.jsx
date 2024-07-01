@@ -6,7 +6,7 @@ const ArticleDetail = () => {
   const { index } = useParams();
   const articleFromRedux = useSelector((state) => state.articles.articles[index]);
   const [article, setArticle] = useState(articleFromRedux);
-
+// console.log(article);
   useEffect(() => {
     // Check if article is found in Redux state
     if (!articleFromRedux) {
@@ -30,14 +30,14 @@ const ArticleDetail = () => {
           Back to articles
         </Link>
         <img
-          src={article.image}
+          src={article?.image}
           alt={"imgErr"}
           className="w-full h-full object-cover rounded-md"
         />
       </div>
       <div className="w-full md:ml-4 md:mt-16">
-        <h1 className="text-2xl font-bold mt-4">{article.title}</h1>
-        <p className="mt-4">{article.content}</p>
+        <h1 className="text-2xl font-bold mt-4">{article?.title}</h1>
+        <p className="mt-4">{article?.content}</p>
       </div>
     </div>
   );
