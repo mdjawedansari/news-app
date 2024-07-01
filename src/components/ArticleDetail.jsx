@@ -8,15 +8,12 @@ const ArticleDetail = () => {
   const [article, setArticle] = useState(articleFromRedux);
 
   useEffect(() => {
-    // Check if article is found in Redux state
     if (!articleFromRedux) {
-      // If not found in Redux state, check localStorage
-      const savedArticle = localStorage.getItem(`article-${index}`);
+      const savedArticle = JSON.parse(localStorage.getItem(`article-${index}`));
       if (savedArticle) {
-        setArticle(JSON.parse(savedArticle));
+        setArticle(savedArticle);
       }
     } else {
-      // If found in Redux state, save it to localStorage
       localStorage.setItem(`article-${index}`, JSON.stringify(articleFromRedux));
     }
   }, [articleFromRedux, index]);
@@ -31,7 +28,7 @@ const ArticleDetail = () => {
         </Link>
         <img
           src={article.image}
-          alt={"imgErr"}
+          alt="Article Image"
           className="w-full h-full object-cover rounded-md"
         />
       </div>
