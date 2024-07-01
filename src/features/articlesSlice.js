@@ -1,30 +1,21 @@
-// src/features/articlesSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const apiUrl = 'https://newsapi.org/v2/everything';
-const apiKey = '0517cde1b9f745c185d36e15fea5ada7';
-const from = '2024-05-30';
-const sortBy = 'publishedAt';
+const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 
 export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
-  async ({ category, page }) => {
+  async ({ id }) => {
     const response = await axios.get(apiUrl, {
       params: {
-        q: category,
-        from: from,
-        sortBy: sortBy,
-        page: page,
-        apiKey: apiKey,
+        id: id,
       },
       headers: {
-        // Add any necessary headers here
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
     });
-    return response.data.articles;
+    return response.data;
   }
 );
 
@@ -34,16 +25,11 @@ const articlesSlice = createSlice({
     articles: [],
     status: 'idle',
     error: null,
-    category: 'general',
-    page: 1,
+    id: 1,
   },
   reducers: {
-    setCategory: (state, action) => {
-      state.category = action.payload;
-      state.page = 1;
-    },
-    setPage: (state, action) => {
-      state.page = action.payload;
+    setId: (state, action) => {
+      state.id = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -62,6 +48,6 @@ const articlesSlice = createSlice({
   },
 });
 
-export const { setCategory, setPage } = articlesSlice.actions;
+export const { setId } = articlesSlice.actions;
 
 export default articlesSlice.reducer;

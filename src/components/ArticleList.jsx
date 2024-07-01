@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from '../features/articlesSlice';
 import { Link } from 'react-router-dom';
-import Pagination from './Pagination';
-import CategoryFilter from './CategoryFilter';
+// import Pagination from './Pagination';
+// import CategoryFilter from './CategoryFilter';
 
 const ArticleList = () => {
   const dispatch = useDispatch();
   const { articles, status, error, category, page } = useSelector((state) => state.articles);
-
+console.log(articles);
   useEffect(() => {
     dispatch(fetchArticles({ category, page }));
   }, [dispatch, category, page]);
@@ -19,19 +19,19 @@ const ArticleList = () => {
 
   return (
     <div className="container mx-auto px-4">
-      <CategoryFilter />
+      {/* <CategoryFilter /> */}
       <div className="grid grid-cols-1 grid-rows-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {articles.map((article, index) => (
           <div key={index} className="border rounded-lg p-4">
             <img
-              src={article.urlToImage}
+              src={article.image}
               alt="imgErr"
               className="w-full h-48 object-cover rounded-md"
             />
             <h2 className="text-xl font-semibold mt-2 line-clamp-2">
               {article.title}
             </h2>
-            <p className="mt-2 line-clamp-3">{article.description}</p>
+            <p className="mt-2 line-clamp-3">{article.content}</p>
             <Link
               to={`/article/${index}`}
               className="text-blue-500 mt-2 inline-block"
@@ -41,7 +41,7 @@ const ArticleList = () => {
           </div>
         ))}
       </div>
-      <Pagination />
+      {/* <Pagination /> */}
     </div>
   );
 };
