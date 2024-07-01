@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const apiUrl = 'https://jsonplaceholder.org/posts';
+const apiUrl = "https://jsonplaceholder.org/posts";
 
 export const fetchArticles = createAsyncThunk(
-  'articles/fetchArticles',
-  async ({ id , category, page}) => {
+  "articles/fetchArticles",
+  async ({ id, category, page }) => {
     const response = await axios.get(apiUrl, {
       params: {
         id: id,
@@ -13,19 +13,30 @@ export const fetchArticles = createAsyncThunk(
         page: page,
       },
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
     });
+    
     return response.data;
   }
 );
 
+export const fetchArticlesById = createAsyncThunk(
+  "articles/fetchArticlesById",
+  async (id) => {
+    const response = await axios.get(`${apiUrl}/${id}`);
+    return response.data;
+  }
+);
+
+
 const articlesSlice = createSlice({
-  name: 'articles',
+  name: "articles",
   initialState: {
     articles: [],
-    status: 'idle',
+    articleDetails: null,
+    status: "idle",
     error: null,
     id: 1,
     category: "general",
@@ -45,14 +56,23 @@ const articlesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchArticles.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchArticles.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.articles = action.payload;
       })
       .addCase(fetchArticles.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+
+      .addCase(fetchArticlesById.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.articleDetails = action.payload; // Ensure payload is correctly set
+      })
+      .addCase(fetchArticlesById.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.error.message;
       });
   },

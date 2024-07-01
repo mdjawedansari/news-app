@@ -9,7 +9,7 @@ import CategoryFilter from './CategoryFilter';
 const ArticleList = () => {
   const dispatch = useDispatch();
   const { articles, status, error, category, page } = useSelector((state) => state.articles);
-// console.log(articles);
+
   useEffect(() => {
     dispatch(fetchArticles({ category, page }));
   }, [dispatch, category, page]);

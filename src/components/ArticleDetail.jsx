@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchArticlesById } from "../features/articlesSlice";
+
 
 const ArticleDetail = () => {
   const { id } = useParams();
-  const articleFromRedux = useSelector((state) => state.articles.articles[id]);
-  const [article, setArticle] = useState(articleFromRedux);
-// console.log(article);
+  const dispatch = useDispatch();
+  const article = useSelector((state) => state?.articles?.articleDetails);
+  // console.log(article);
+
   useEffect(() => {
-    // Check if article is found in Redux state
-    if (!articleFromRedux) {
-      // If not found in Redux state, check localStorage
-      const savedArticle = localStorage.getItem(`article-${id}`);
-      if (savedArticle) {
-        setArticle(JSON.parse(savedArticle));
-      }
-    } else {
-      // If found in Redux state, save it to localStorage
-      localStorage.setItem(`article-${id}`, JSON.stringify(articleFromRedux));
-    }
-  }, [articleFromRedux, id]);
+    dispatch(fetchArticlesById(id));
+  }, [id, dispatch]);
 
   if (!article) return <div>Article not found</div>;
 
