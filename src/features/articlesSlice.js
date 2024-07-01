@@ -1,14 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+const apiUrl = 'https://jsonplaceholder.org/posts';
 
 export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
-  async ({ id }) => {
+  async ({ id , category, page}) => {
     const response = await axios.get(apiUrl, {
       params: {
         id: id,
+        category: category,
+        page: page,
       },
       headers: {
         'Content-Type': 'application/json',
@@ -26,10 +28,18 @@ const articlesSlice = createSlice({
     status: 'idle',
     error: null,
     id: 1,
+    category: "general",
+    page: 1,
   },
   reducers: {
     setId: (state, action) => {
       state.id = action.payload;
+    },
+    setCategory: (state, action) => {
+      state.category = action.payload;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -48,6 +58,6 @@ const articlesSlice = createSlice({
   },
 });
 
-export const { setId } = articlesSlice.actions;
+export const { setId, setCategory, setPage } = articlesSlice.actions;
 
 export default articlesSlice.reducer;

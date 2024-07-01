@@ -24,20 +24,20 @@ const ArticleDetail = () => {
   if (!article) return <div>Article not found</div>;
 
   return (
-    <div className="p-4 sm:flex">
-      <div className="sm:mr-4 sm:mt-4">
+    <div className="w-full p-4 md:flex">
+      <div className="w-1/3 md:mr-4 md:mt-4">
         <Link to="/" className="text-blue-500 mb-4 inline-block">
           Back to articles
         </Link>
         <img
-          src={article.urlToImage}
+          src={article.image}
           alt={"imgErr"}
           className="w-full h-full object-cover rounded-md"
         />
       </div>
-      <div className="sm:ml-4 sm:mt-16">
+      <div className="w-2/3 md:ml-4 md:mt-16">
         <h1 className="text-2xl font-bold mt-4">{article.title}</h1>
-        <p className="mt-4">{article.description}</p>
+        <p className="mt-4">{article.content}</p>
       </div>
     </div>
   );

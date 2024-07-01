@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from '../features/articlesSlice';
 import { Link } from 'react-router-dom';
-// import Pagination from './Pagination';
-// import CategoryFilter from './CategoryFilter';
+import Pagination from './Pagination';
+import CategoryFilter from './CategoryFilter';
 
 const ArticleList = () => {
   const dispatch = useDispatch();
   const { articles, status, error, category, page } = useSelector((state) => state.articles);
-console.log(articles);
+// console.log(articles);
   useEffect(() => {
     dispatch(fetchArticles({ category, page }));
   }, [dispatch, category, page]);
@@ -19,7 +19,7 @@ console.log(articles);
 
   return (
     <div className="container mx-auto px-4">
-      {/* <CategoryFilter /> */}
+      <CategoryFilter />
       <div className="grid grid-cols-1 grid-rows-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {articles.map((article, index) => (
           <div key={index} className="border rounded-lg p-4">
@@ -41,7 +41,7 @@ console.log(articles);
           </div>
         ))}
       </div>
-      {/* <Pagination /> */}
+      <Pagination />
     </div>
   );
 };
