@@ -3,23 +3,23 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ArticleDetail = () => {
-  const { index } = useParams();
-  const articleFromRedux = useSelector((state) => state.articles.articles[index]);
+  const { id } = useParams();
+  const articleFromRedux = useSelector((state) => state.articles.articles[id]);
   const [article, setArticle] = useState(articleFromRedux);
 // console.log(article);
   useEffect(() => {
     // Check if article is found in Redux state
     if (!articleFromRedux) {
       // If not found in Redux state, check localStorage
-      const savedArticle = localStorage.getItem(`article-${index}`);
+      const savedArticle = localStorage.getItem(`article-${id}`);
       if (savedArticle) {
         setArticle(JSON.parse(savedArticle));
       }
     } else {
       // If found in Redux state, save it to localStorage
-      localStorage.setItem(`article-${index}`, JSON.stringify(articleFromRedux));
+      localStorage.setItem(`article-${id}`, JSON.stringify(articleFromRedux));
     }
-  }, [articleFromRedux, index]);
+  }, [articleFromRedux, id]);
 
   if (!article) return <div>Article not found</div>;
 
